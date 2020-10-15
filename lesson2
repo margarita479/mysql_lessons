@@ -1,0 +1,81 @@
+#1. Установите СУБД MySQL. Создайте в домашней директории файл .my.cnf, задав в нем логин и пароль, который указывался при установке.
+
+Установите СУБД MySQL. Создайте в домашней директории файл .my.cnf, задав в нем логин и пароль, который указывался при установке.
+dbeaver: [mysql]
+USER=root
+password=
+margarita@margarita-VirtualBox:~$ ls -la | grep .my.cnf
+
+
+#2. Создайте базу данных example, разместите в ней таблицу users, 
+состоящую из двух столбцов, числового id и строкового name.
+
+mysql> CREATE DATABASE example;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> CREATE TABLE users (id INT, name CHAR);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> SHOW TABLES FROM mysql;
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| columns_priv              |
+| component                 |
+.....|
+| user                      |
++---------------------------+
+33 rows in set (0.01 sec)
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_example |
++-------------------+
+| users             |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> DESCRIBE users;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| id    | int     | YES  |     | NULL    |       |
+| name  | char(1) | YES  |     | NULL    |       |
++-------+---------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+
+#3.
+Создайте дамп базы данных example из предыдущего задания, разверните содержимое дампа в новую базу данных sample.
+
+margarita@margarita-VirtualBox:~$ mysqldump example > sample.sql
+margarita@margarita-VirtualBox:~$ ls
+ CREATE        sample.sql   Загрузки      Общедоступные
+ lesson2       Видео        Изображения  'Рабочий стол'
+'lesson2 DB'   Документы    Музыка        Шаблоны
+margarita@margarita-VirtualBox:~$ tail -10 sample.sql
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-10-15 19:12:49
+
+margarita@margarita-VirtualBox:~$ sudo mysql sample < sample.sql
+margarita@margarita-VirtualBox:~$ tail -10 sample.sql
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-10-15 19:12:49
+
+
